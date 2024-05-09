@@ -4,23 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_plantist_app/view/components/custom_primary_button.dart';
 import 'package:flutter_plantist_app/view/components/custom_text_field.dart';
 import 'package:flutter_plantist_app/view/helpers/theme.dart';
-import 'package:flutter_plantist_app/view/pages/todo_list_page.dart';
 import 'package:go_router/go_router.dart';
 
-class SignInPage extends StatefulWidget {
-  static const routeName = '/sign_in_page';
-  const SignInPage({super.key});
+class SignUpPage extends StatefulWidget {
+  static const routeName = '/sign_up_page';
+  const SignUpPage({super.key});
 
   @override
-  State<SignInPage> createState() => _SignInPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
 TextEditingController mailTextController = TextEditingController(text: "");
 TextEditingController passwordTextController = TextEditingController(text: "");
 final formKey = GlobalKey<FormState>();
-bool isEnable=false;
+bool isEnable = false;
 
-class _SignInPageState extends State<SignInPage> {
+class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +29,7 @@ class _SignInPageState extends State<SignInPage> {
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 40.0, horizontal: 5),
+                padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 5),
                 child: Row(children: [
                   GestureDetector(
                       onTap: () {
@@ -40,7 +39,7 @@ class _SignInPageState extends State<SignInPage> {
                 ]),
               ),
               Row(children: [
-                Text("Sign in with email",
+                Text("Sign up with email",
                     style: context.textTheme.title1Emphasized)
               ]),
               const SizedBox(height: 15),
@@ -74,7 +73,8 @@ class _SignInPageState extends State<SignInPage> {
                     const SizedBox(height: 20),
                     CustomTextField(
                       controller: passwordTextController,
-                      suffixIcons: const [Icon(CupertinoIcons.eye),
+                      suffixIcons: const [
+                        Icon(CupertinoIcons.eye),
                         Icon(CupertinoIcons.eye_slash)
                       ],
                       isObscured: true,
@@ -88,7 +88,7 @@ class _SignInPageState extends State<SignInPage> {
                         }
                       },
                       onChanged: (String value) {
-                        passwordTextController.text =value;
+                        passwordTextController.text = value;
                         _isSignInBtnEnable();
                       },
                     ),
@@ -111,11 +111,9 @@ class _SignInPageState extends State<SignInPage> {
                     const SizedBox(height: 25),
                     CustomPrimaryButton(
                       height: 75,
-                      text: "Sign In",
+                      text: "Create Account",
                       enabled: _isSignInBtnEnable(),
-                      onButtonPressed: (p0) {
-                        context.push(TodoListPage.routeName);
-                      },
+                      onButtonPressed: (p0) {},
                     ),
                     const SizedBox(height: 15),
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [

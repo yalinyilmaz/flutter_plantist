@@ -4,6 +4,7 @@ import 'package:flutter_plantist_app/gen/assets.gen.dart';
 import 'package:flutter_plantist_app/view/components/custom_secondary_button.dart';
 import 'package:flutter_plantist_app/view/helpers/theme.dart';
 import 'package:flutter_plantist_app/view/pages/sign_in_page.dart';
+import 'package:flutter_plantist_app/view/pages/sign_up_page.dart';
 import 'package:go_router/go_router.dart';
 
 class HomePage extends StatefulWidget {
@@ -54,7 +55,7 @@ class _HomePageState extends State<HomePage> {
                       style: context.textTheme.subheadlineEmphasized,
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          // Burada Sign-up sayfasına yönlendirme yapılacak.
+                          context.push(SignUpPage.routeName);
                         },
                     )
                   ])),

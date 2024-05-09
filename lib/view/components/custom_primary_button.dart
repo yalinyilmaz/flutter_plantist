@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_plantist_app/view/helpers/theme.dart';
 
@@ -37,11 +36,8 @@ class CustomPrimaryButton extends StatelessWidget {
   var busy = false;
 
   handleButtonPressed(context) async {
-    
     if (onButtonPressed != null && enabled) {
-   
-        onButtonPressed!(context);
-      
+      onButtonPressed!(context);
     }
   }
 
@@ -62,10 +58,10 @@ class CustomPrimaryButton extends StatelessWidget {
   TextStyle getButtonTextStyle(BuildContext context) {
     if (!enabled) {
       return context.textTheme.title3Emphasized
-              .copyWith(color: context.whiteColor.shade100);
+          .copyWith(color: context.whiteColor.shade100);
     } else {
-      return  context.textTheme.title3Emphasized
-              .copyWith(color: context.whiteColor.shade50);
+      return context.textTheme.title3Emphasized
+          .copyWith(color: context.whiteColor.shade50);
     }
   }
 
@@ -73,7 +69,7 @@ class CustomPrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IgnorePointer(
       ignoring: !enabled,
-      child: GestureDetector( 
+      child: GestureDetector(
         onTap: () async {
           await handleButtonPressed(context);
         },

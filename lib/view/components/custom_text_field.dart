@@ -3,22 +3,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_plantist_app/view/helpers/theme.dart';
 
 class CustomTextField extends StatefulWidget {
-  final Widget? suffixIcon;
+  final TextEditingController? controller;
+  final List<Widget>? suffixIcons;
   final bool isObscured;
   final String? initialValue;
   final Function? validator;
   final Function? onChanged;
   final Function? onSubmit;
   final String hintText;
-  CustomTextField(
-      {super.key,
-      this.initialValue,
-      this.validator,
-      this.onChanged,
-      this.onSubmit,
-      required this.hintText,
-      required this.isObscured,
-      this.suffixIcon});
+  final TextStyle? hintStyle;
+  final InputBorder? inputBorder;
+  final int? maxLines;
+  CustomTextField({
+    super.key,
+    this.initialValue,
+    this.validator,
+    this.onChanged,
+    this.onSubmit,
+    required this.hintText,
+    required this.isObscured,
+    this.suffixIcons,
+    this.controller,
+    this.hintStyle,
+    this.inputBorder,
+    this.maxLines
+  });
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -30,15 +39,17 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: widget.maxLines ?? 1,
+      controller: widget.controller,
       cursorColor: context.darkColor.shade900,
       decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(20),
-          enabledBorder: UnderlineInputBorder(
+          enabledBorder: widget.inputBorder ?? UnderlineInputBorder(
               borderSide: BorderSide(color: context.darkColor.shade100)),
-          focusedBorder: UnderlineInputBorder(
+          focusedBorder: widget.inputBorder ?? UnderlineInputBorder(
               borderSide: BorderSide(color: context.darkColor.shade100)),
           hintText: widget.hintText,
-          hintStyle: context.textTheme.calloutEmphasized.copyWith(
+          hintStyle: widget.hintStyle ?? context.textTheme.calloutEmphasized.copyWith(
               color: context.darkColor.shade200, fontWeight: FontWeight.w600),
           suffixIconConstraints:
               const BoxConstraints(minHeight: 44, minWidth: 44),
@@ -50,7 +61,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
       },
       onChanged: (value) {
         if (widget.onChanged != null) {
-          widget.onChanged!.call();
+          // ignore: void_checks
+          return widget.onChanged!(value);
         }
       },
       onFieldSubmitted: (value) {
@@ -64,13 +76,15 @@ class _CustomTextFieldState extends State<CustomTextField> {
   }
 
   Widget? _suffixIconBuilder() {
-    return GestureDetector(
-        onTap: () {
-          showing = !showing;
-          setState(() {});
-        },
-        child: SizedBox(
-            child:
-                showing ? widget.suffixIcon : const Icon(CupertinoIcons.eye)));
+    return widget.suffixIcons != null
+        ? GestureDetector(
+            onTap: () {
+              showing = !showing;
+              setState(() {});
+            },
+            child: SizedBox(
+                child:
+                    showing ? widget.suffixIcons![0] : widget.suffixIcons![1]))
+        : const SizedBox();
   }
 }
