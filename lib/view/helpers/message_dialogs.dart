@@ -25,7 +25,7 @@ class MessageDialog {
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(24),
-                  color: Themes.lightTheme.scaffoldBackgroundColor,
+                  color: Colors.grey,
                 ),
                 child: content,
               ),

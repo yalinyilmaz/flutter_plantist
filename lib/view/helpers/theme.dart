@@ -2,51 +2,47 @@ import 'package:flutter/material.dart';
 import 'package:flutter_plantist_app/view/helpers/colors.dart';
 
 class Themes {
-  static ThemeData lightTheme = ThemeData(
-    useMaterial3: false,
-    brightness: Brightness.light,
-    scaffoldBackgroundColor: const Color.fromARGB(255, 192, 192, 192),
-    //fontFamily: GoogleFonts.inter().fontFamily,
-    cardTheme: CardTheme(
-        color: Colors.white,
-        elevation: 10,
-        shadowColor: const Color.fromARGB(255, 192, 192, 192),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32))),
-    bottomSheetTheme: const BottomSheetThemeData(
-        backgroundColor: Colors.white,
-        elevation: 10,
-        modalElevation: 10,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(38), topRight: Radius.circular(38)))),
-    appBarTheme: const AppBarTheme(
-        color: Color.fromARGB(255, 192, 192, 192),
-        elevation: 0,
-        iconTheme: IconThemeData(color: Colors.black),
-        titleTextStyle: TextStyle(color: Colors.black)),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ButtonStyle(
-            shape: MaterialStateProperty.all(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-            ),
-            foregroundColor: MaterialStateProperty.all(Colors.white),
-            backgroundColor: MaterialStateProperty.all(Colors.white))),
-    textSelectionTheme: const TextSelectionThemeData(
-      cursorColor: Colors.black,
-      selectionColor: Colors.black,
-      selectionHandleColor: Colors.black,
-    ),
-    inputDecorationTheme: InputDecorationTheme(
-        contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
-        labelStyle: const TextStyle(color: Colors.grey),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(40),
-          borderSide: BorderSide.none,
-        ),
-        hintStyle: const TextStyle(color: Colors.grey)),
-  );
+//   static ThemeData lightTheme = ThemeData(
+//     useMaterial3: false,
+//     brightness: Brightness.light,
+//     scaffoldBackgroundColor: Colors.white,
+//     //fontFamily: GoogleFonts.inter().fontFamily,
+//     cardTheme: CardTheme(
+//         color: Colors.white,
+//         elevation: 10,
+//         shadowColor: const Color.fromARGB(255, 192, 192, 192),
+//         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32))),
+//     bottomSheetTheme: const BottomSheetThemeData(
+//         backgroundColor: Colors.white,
+//         elevation: 10,
+//         modalElevation: 10,
+//         shape: RoundedRectangleBorder(
+//             borderRadius: BorderRadius.only(
+//                 topLeft: Radius.circular(38), topRight: Radius.circular(38)))),
+//     appBarTheme: const AppBarTheme(
+//         color: Color.fromARGB(255, 192, 192, 192),
+//         elevation: 0,
+//         iconTheme: IconThemeData(color: Colors.black),
+//         titleTextStyle: TextStyle(color: Colors.black)),
+//     elevatedButtonTheme: ElevatedButtonThemeData(
+//         style: ButtonStyle(
+//             shape: MaterialStateProperty.all(
+//               RoundedRectangleBorder(
+//                 borderRadius: BorderRadius.circular(20),
+//               ),
+//             ),
+//             foregroundColor: MaterialStateProperty.all(Colors.white),
+//             backgroundColor: MaterialStateProperty.all(Colors.white))),
+//     textSelectionTheme: const TextSelectionThemeData(
+//       cursorColor: Colors.black,
+//       selectionColor: Colors.black,
+//       selectionHandleColor: Colors.black,
+//     ),
+//     inputDecorationTheme: const InputDecorationTheme(
+//         labelStyle: TextStyle(color: Colors.grey),
+//         border: UnderlineInputBorder(borderSide: BorderSide(width: 0.3)),
+//         hintStyle: TextStyle(color: Colors.grey)),
+//   );
 }
 
 extension ThemeExtension on BuildContext {
@@ -67,18 +63,18 @@ extension TextThemeExtension on TextTheme {
   ///LARGE TITLES           =>            //** FONTSİZE - 34 **//
 
   TextStyle get largeTitleRegular =>
-      const TextStyle(color: Colors.black).newRegular.newSize(34);
+      const TextStyle(color: Colors.black).newRegular.newSize(44);
 
   TextStyle get largeTitleEmphasized =>
-      const TextStyle(color: Colors.black).emphasized.newSize(34);
+      const TextStyle(color: Colors.black).emphasized.newSize(44);
 
   ///TITLE1's           =>           //** FONTSİZE - 28 **//
 
   TextStyle get title1Regular =>
-      const TextStyle(color: Colors.black).newRegular.newSize(28);
+      const TextStyle(color: Colors.black).newRegular.newSize(32);
 
   TextStyle get title1Emphasized =>
-      const TextStyle(color: Colors.black).emphasized.newSize(28);
+      const TextStyle(color: Colors.black).emphasized.newSize(32);
 
   ///TITLE2's           =>           //** FONTSİZE - 22 **//
 
@@ -94,7 +90,7 @@ extension TextThemeExtension on TextTheme {
       const TextStyle(color: Colors.black).newRegular.newSize(20);
 
   TextStyle get title3Emphasized =>
-      const TextStyle(color: Colors.black).semiEmphasized.newSize(20);
+      const TextStyle(color: Colors.black).emphasized.newSize(20);
 
   ///HEADLINES           =>           //** FONTSİZE - 17 **//
 
@@ -107,30 +103,30 @@ extension TextThemeExtension on TextTheme {
   ///BODIES           =>           //** FONTSİZE - 17 **//
 
   TextStyle get bodyRegular =>
-      const TextStyle(color: Colors.black).newRegular.newSize(17);
+      const TextStyle(color: Colors.black).newRegular.newSize(18);
 
   TextStyle get bodyEmphasized =>
-      const TextStyle(color: Colors.black).semiEmphasized.newSize(17);
+      const TextStyle(color: Colors.black).semiEmphasized.newSize(18);
 
   TextStyle get bodyItalic =>
-      const TextStyle(color: Colors.black).italic.newSize(17);
+      const TextStyle(color: Colors.black).italic.newSize(18);
 
   TextStyle get bodyEmphasizedItalic =>
-      const TextStyle(color: Colors.black).semiEmphasized.italic.newSize(17);
+      const TextStyle(color: Colors.black).semiEmphasized.italic.newSize(18);
 
   ///CALLOUTS           =>           //** FONTSİZE - 16 **//
 
   TextStyle get calloutRegular =>
-      const TextStyle(color: Colors.black).newRegular.newSize(16);
+      const TextStyle(color: Colors.black).newRegular.newSize(17);
 
   TextStyle get calloutEmphasized =>
-      const TextStyle(color: Colors.black).semiEmphasized.newSize(16);
+      const TextStyle(color: Colors.black).semiEmphasized.newSize(17);
 
   TextStyle get calloutItalic =>
-      const TextStyle(color: Colors.black).italic.newSize(16);
+      const TextStyle(color: Colors.black).italic.newSize(17);
 
   TextStyle get calloutEmphasizedItalic =>
-      const TextStyle(color: Colors.black).semiEmphasized.italic.newSize(16);
+      const TextStyle(color: Colors.black).semiEmphasized.italic.newSize(17);
 
   ///SUBHEADLINES           =>           //** FONTSİZE - 15 **//
 
@@ -138,7 +134,7 @@ extension TextThemeExtension on TextTheme {
       const TextStyle(color: Colors.black).newRegular.newSize(15);
 
   TextStyle get subheadlineEmphasized =>
-      const TextStyle(color: Colors.black).semiEmphasized.newSize(15);
+      const TextStyle(color: Colors.black).emphasized.newSize(15);
 
   TextStyle get subheadlineItalic =>
       const TextStyle(color: Colors.black).italic.newSize(15);
@@ -190,11 +186,11 @@ extension TextThemeExtension on TextTheme {
 }
 
 extension TextStyleExtension on TextStyle {
-  TextStyle get emphasized => copyWith(fontWeight: FontWeight.w700);
+  TextStyle get emphasized => copyWith(fontWeight: FontWeight.w600);
 
-  TextStyle get semiEmphasized => copyWith(fontWeight: FontWeight.w600);
+  TextStyle get semiEmphasized => copyWith(fontWeight: FontWeight.w400);
 
-  TextStyle get newRegular => copyWith(fontWeight: FontWeight.w400);
+  TextStyle get newRegular => copyWith(fontWeight: FontWeight.w200);
 
   TextStyle get newMedium => copyWith(fontWeight: FontWeight.w500);
 
