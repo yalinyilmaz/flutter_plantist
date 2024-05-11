@@ -1,10 +1,11 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_plantist_app/gen/assets.gen.dart';
+import 'package:flutter_plantist_app/view/components/bottom_sheet_header.dart';
 import 'package:flutter_plantist_app/view/components/custom_primary_button.dart';
+import 'package:flutter_plantist_app/view/components/custom_tertiary_button.dart';
 import 'package:flutter_plantist_app/view/components/custom_text_field.dart';
 import 'package:flutter_plantist_app/view/helpers/theme.dart';
 import 'package:go_router/go_router.dart';
@@ -16,6 +17,9 @@ class TodoListPage extends StatefulWidget {
   @override
   State<TodoListPage> createState() => _TodoListPageState();
 }
+
+bool isDatePicked = false;
+PageController controller = PageController();
 
 class _TodoListPageState extends State<TodoListPage> {
   @override
@@ -50,107 +54,125 @@ class _TodoListPageState extends State<TodoListPage> {
           padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 10),
           child: SizedBox(
             child: CustomPrimaryButton(
-              icon:  Icon(Icons.add,color: context.whiteColor.shade100,),
+              icon: Icon(
+                Icons.add,
+                color: context.whiteColor.shade100,
+              ),
               enabled: true,
               text: "New Reminder",
               height: 75,
               onButtonPressed: (p0) {
-                showModalBottomSheet(
-                  isScrollControlled: true,
-                  context: context,
-                  builder: (context) {
-                    return Padding(
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.viewInsetsOf(context).bottom),
-                      child: SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  TextButton(
-                                      onPressed: () {
-                                        context.pop();
-                                      },
-                                      child: Text(
-                                        "Cancel",
-                                        style: context.textTheme.bodyEmphasized
-                                            .copyWith(color: Colors.blueAccent),
-                                      )),
-                                  Text("New Reminder",
-                                      style: context.textTheme.bodyEmphasized
-                                          .copyWith(
-                                              fontWeight: FontWeight.w600)),
-                                  TextButton(
-                                      onPressed: () {},
-                                      child: Text(
-                                        "Add",
-                                        style: context.textTheme.bodyEmphasized
-                                            .copyWith(fontWeight: FontWeight.w600),
-                                      )),
-                                ],
-                              ),
-                              const SizedBox(height: 20),
-                              CustomTextField(
-                                hintText: "Title",
-                                hintStyle: context.textTheme.bodyEmphasized.copyWith(color:Colors.grey),
-                                isObscured: false,
-                              ),
-                              const SizedBox(height: 10),
-                              CustomTextField(
-                                maxLines: 5,
-                                hintText: "Notes",
-                                hintStyle: context.textTheme.bodyEmphasized.copyWith(color:Colors.grey),
-                                inputBorder: InputBorder.none,
-                                isObscured: false,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey.withOpacity(.1),
-                                      border: Border.all(
-                                          color: context.darkColor.shade100),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text("Details",
-                                                  style: context
-                                                      .textTheme.bodyRegular.copyWith(fontWeight: FontWeight.w400)),
-                                              Text("Today",
-                                                  style: context
-                                                      .textTheme.calloutRegular.copyWith(color:Colors.grey.shade900))
-                                            ],
-                                          ),
-                                          Icon(Icons.arrow_forward_ios,
-                                              color: context.darkColor.shade100)
-                                        ],
-                                      ),
-                                    )),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                );
+                _addNewReminder(context);
               },
             ),
           ),
         )
       ]),
     ));
+  }
+
+  Future<dynamic> _addNewReminder(BuildContext context) {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (context) {
+        return Padding(
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: PageView(
+                controller:controller ,
+                children: [
+                Column(
+                  children: [
+                    BottomSheetHeader(title: "New Reminder"),
+                    const SizedBox(height: 20),
+                    CustomTextField(
+                      hintText: "Title",
+                      hintStyle: context.textTheme.bodyEmphasized
+                          .copyWith(color: Colors.grey),
+                      isObscured: false,
+                    ),
+                    const SizedBox(height: 10),
+                    CustomTextField(
+                      maxLines: 5,
+                      hintText: "Notes",
+                      hintStyle: context.textTheme.bodyEmphasized
+                          .copyWith(color: Colors.grey),
+                      inputBorder: InputBorder.none,
+                      isObscured: false,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CustomTertiaryButton(
+                        onButtonPressed: () {
+                        
+                        },
+                        mainTitle: "Details",
+                        subtitle: "Today",
+                        icon: Icon(Icons.arrow_forward_ios,
+                            color: context.darkColor.shade100),
+                      ),
+                    )
+                  ],
+                ),
+                Column(
+                  children: [
+                    BottomSheetHeader(title: "New Reminder"),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Assets.images.datePicker.image(),
+                        Text("Date",
+                            style: context.textTheme.bodyRegular
+                                .copyWith(fontWeight: FontWeight.w400)),
+                        const Spacer(),
+                        Checkbox(
+                          value: isDatePicked,
+                          onChanged: (value) {
+                            isDatePicked = value!;
+                          },
+                        )
+                      ],
+                    ),
+                    const Divider(),
+                    Row(
+                      children: [
+                        Assets.images.timePicker.image(),
+                        Text("Time",
+                            style: context.textTheme.bodyRegular
+                                .copyWith(fontWeight: FontWeight.w400)),
+                        const Spacer(),
+                        Checkbox(
+                          value: isDatePicked,
+                          onChanged: (value) {
+                            isDatePicked = value!;
+                          },
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    CustomTertiaryButton(
+                        mainTitle: "Priority",
+                        type: "None",
+                        icon: Icon(Icons.arrow_forward_ios,
+                            color: context.darkColor.shade100)),
+                    const SizedBox(height: 10),
+                    CustomTertiaryButton(
+                        mainTitle: "Attach a file",
+                        type: "None",
+                        icon: Icon(Icons.attach_file,
+                            color: context.darkColor.shade100)),
+                    const SizedBox(height: 150),
+                  ],
+                )
+              ]),
+            ),
+          ),
+        );
+      },
+    );
   }
 }

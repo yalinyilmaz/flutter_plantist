@@ -12,12 +12,20 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/date_picker.png
+  AssetGenImage get datePicker =>
+      const AssetGenImage('assets/images/date_picker.png');
+
   /// File path: assets/images/main_icon.png
   AssetGenImage get mainIcon =>
       const AssetGenImage('assets/images/main_icon.png');
 
+  /// File path: assets/images/time_picker.png
+  AssetGenImage get timePicker =>
+      const AssetGenImage('assets/images/time_picker.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [mainIcon];
+  List<AssetGenImage> get values => [datePicker, mainIcon, timePicker];
 }
 
 class Assets {
