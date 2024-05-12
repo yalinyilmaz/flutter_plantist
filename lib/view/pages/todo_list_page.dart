@@ -1,3 +1,5 @@
+import 'package:date_time_picker_widget/date_time_picker_widget.dart';
+import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -8,6 +10,7 @@ import 'package:flutter_plantist_app/view/components/custom_primary_button.dart'
 import 'package:flutter_plantist_app/view/components/custom_tertiary_button.dart';
 import 'package:flutter_plantist_app/view/components/custom_text_field.dart';
 import 'package:flutter_plantist_app/view/helpers/theme.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:go_router/go_router.dart';
 
 class TodoListPage extends StatefulWidget {
@@ -18,8 +21,18 @@ class TodoListPage extends StatefulWidget {
   State<TodoListPage> createState() => _TodoListPageState();
 }
 
+
+PageController pageController = PageController(initialPage: 0);
 bool isDatePicked = false;
-PageController controller = PageController();
+bool isTimePicked = false;
+DateTime now = DateTime.now();
+
+
+@override
+void dispose() {
+  pageController.dispose();
+}
+
 
 class _TodoListPageState extends State<TodoListPage> {
   @override
@@ -82,9 +95,7 @@ class _TodoListPageState extends State<TodoListPage> {
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
-              child: PageView(
-                controller:controller ,
-                children: [
+              child: ExpandablePageView(controller: pageController, children: [
                 Column(
                   children: [
                     BottomSheetHeader(title: "New Reminder"),
@@ -108,7 +119,9 @@ class _TodoListPageState extends State<TodoListPage> {
                       padding: const EdgeInsets.all(8.0),
                       child: CustomTertiaryButton(
                         onButtonPressed: () {
-                        
+                          pageController.animateToPage(1,
+                              duration: const Duration(microseconds: 300),
+                              curve: Curves.easeIn);
                         },
                         mainTitle: "Details",
                         subtitle: "Today",
@@ -120,52 +133,87 @@ class _TodoListPageState extends State<TodoListPage> {
                 ),
                 Column(
                   children: [
-                    BottomSheetHeader(title: "New Reminder"),
+                    BottomSheetHeader(title: "Details"),
                     const SizedBox(height: 10),
                     Row(
                       children: [
-                        Assets.images.datePicker.image(),
+                        Assets.images.datePicker.image(scale: 2),
+                        const SizedBox(width: 5),
                         Text("Date",
                             style: context.textTheme.bodyRegular
                                 .copyWith(fontWeight: FontWeight.w400)),
                         const Spacer(),
-                        Checkbox(
+                        FlutterSwitch(
+                          width: 60,
+                          activeColor: Colors.green,
                           value: isDatePicked,
-                          onChanged: (value) {
-                            isDatePicked = value!;
+                          onToggle: (value) {
+                            isDatePicked = value;
                           },
                         )
                       ],
                     ),
-                    const Divider(),
+                    const Divider(indent: 50, thickness: 0.5),
+                    DateTimePicker(
+                      customStringWeekdays: const ["MO","TU","WE","TH","FR","SA","SU"],
+                      numberOfWeeksToDisplay: 4,
+                      type: DateTimePickerType.Date,
+                      initialSelectedDate: now,
+                      onDateChanged: (date) {
+                        setState(() {
+                         // _d1 = DateFormat('dd MMM, yyyy').format(date);
+                        });
+                      },
+                      // onTimeChanged: (time) {
+                      //   setState(() {
+                      //     _t1 = DateFormat('hh:mm:ss aa').format(time);
+                      //   });
+                      // },
+                    ),
+                    const Divider(indent: 50,thickness: 0.5),
                     Row(
                       children: [
-                        Assets.images.timePicker.image(),
+                        Assets.images.timePicker.image(scale: 2),
+                        const SizedBox(width: 5),
                         Text("Time",
                             style: context.textTheme.bodyRegular
                                 .copyWith(fontWeight: FontWeight.w400)),
                         const Spacer(),
-                        Checkbox(
-                          value: isDatePicked,
-                          onChanged: (value) {
-                            isDatePicked = value!;
+                        FlutterSwitch(
+                          width: 60,
+                          activeColor: Colors.green,
+                          value: isTimePicked,
+                          onToggle: (value) {
+                            isTimePicked = value;
+                            //showDatePicker(context: context, firstDate: DateTime.now(), lastDate: DateTime(DateTime.now().year,DateTime.now().month+2));
                           },
                         )
                       ],
                     ),
-                    const SizedBox(height: 10),
+                    const Divider(indent: 50, thickness: 0.5),
+                    DateTimePicker(
+                      type: DateTimePickerType.Time,
+                      timeInterval: const Duration(minutes: 15),
+                      is24h: true,
+                      onTimeChanged: (time) {
+                        // setState(() {
+                        //   _t1 = DateFormat('hh:mm:ss aa').format(time);
+                        // });
+                      },
+                    ),
+                    const SizedBox(height: 30),
                     CustomTertiaryButton(
                         mainTitle: "Priority",
                         type: "None",
                         icon: Icon(Icons.arrow_forward_ios,
                             color: context.darkColor.shade100)),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 20),
                     CustomTertiaryButton(
                         mainTitle: "Attach a file",
                         type: "None",
                         icon: Icon(Icons.attach_file,
                             color: context.darkColor.shade100)),
-                    const SizedBox(height: 150),
+                    SizedBox(height: MediaQuery.sizeOf(context).height/2.5),
                   ],
                 )
               ]),

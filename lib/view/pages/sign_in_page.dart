@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_plantist_app/presenter/authenticatian/auth_manager.dart';
 import 'package:flutter_plantist_app/view/components/custom_primary_button.dart';
 import 'package:flutter_plantist_app/view/components/custom_text_field.dart';
 import 'package:flutter_plantist_app/view/helpers/theme.dart';
@@ -18,7 +19,7 @@ class SignInPage extends StatefulWidget {
 TextEditingController mailTextController = TextEditingController(text: "");
 TextEditingController passwordTextController = TextEditingController(text: "");
 final formKey = GlobalKey<FormState>();
-bool isEnable=false;
+bool isEnable = false;
 
 class _SignInPageState extends State<SignInPage> {
   @override
@@ -74,7 +75,8 @@ class _SignInPageState extends State<SignInPage> {
                     const SizedBox(height: 20),
                     CustomTextField(
                       controller: passwordTextController,
-                      suffixIcons: const [Icon(CupertinoIcons.eye),
+                      suffixIcons: const [
+                        Icon(CupertinoIcons.eye),
                         Icon(CupertinoIcons.eye_slash)
                       ],
                       isObscured: true,
@@ -88,7 +90,7 @@ class _SignInPageState extends State<SignInPage> {
                         }
                       },
                       onChanged: (String value) {
-                        passwordTextController.text =value;
+                        passwordTextController.text = value;
                         _isSignInBtnEnable();
                       },
                     ),
@@ -114,7 +116,9 @@ class _SignInPageState extends State<SignInPage> {
                       text: "Sign In",
                       enabled: _isSignInBtnEnable(),
                       onButtonPressed: (p0) {
-                        context.push(TodoListPage.routeName);
+                        AuthManager().login(mailTextController.text,
+                            passwordTextController.text, context);
+                        //context.push(TodoListPage.routeName);
                       },
                     ),
                     const SizedBox(height: 15),

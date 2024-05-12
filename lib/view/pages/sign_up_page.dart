@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_plantist_app/presenter/authenticatian/auth_manager.dart';
 import 'package:flutter_plantist_app/view/components/custom_primary_button.dart';
 import 'package:flutter_plantist_app/view/components/custom_text_field.dart';
 import 'package:flutter_plantist_app/view/helpers/theme.dart';
@@ -29,7 +31,8 @@ class _SignUpPageState extends State<SignUpPage> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 5),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 40.0, horizontal: 5),
                 child: Row(children: [
                   GestureDetector(
                       onTap: () {
@@ -67,7 +70,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       },
                       onChanged: (String value) {
                         mailTextController.text = value;
-                        _isSignInBtnEnable();
+                        _isSignUpBtnEnable();
                       },
                     ),
                     const SizedBox(height: 20),
@@ -89,7 +92,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       },
                       onChanged: (String value) {
                         passwordTextController.text = value;
-                        _isSignInBtnEnable();
+                        _isSignUpBtnEnable();
                       },
                     ),
                     Padding(
@@ -112,8 +115,12 @@ class _SignUpPageState extends State<SignUpPage> {
                     CustomPrimaryButton(
                       height: 75,
                       text: "Create Account",
-                      enabled: _isSignInBtnEnable(),
-                      onButtonPressed: (p0) {},
+                      enabled: _isSignUpBtnEnable(),
+                      onButtonPressed: (p0) {
+                        AuthManager().createAccount(
+                            mailTextController.text,
+                            passwordTextController.text);
+                      },
                     ),
                     const SizedBox(height: 15),
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -171,7 +178,7 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  bool _isSignInBtnEnable() {
+  bool _isSignUpBtnEnable() {
     isEnable = formKey.currentState?.validate() ?? false;
     setState(() {});
     return isEnable;

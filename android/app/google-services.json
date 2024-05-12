@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "255641831618",
+    "project_id": "flutter-plantist-62a38",
+    "storage_bucket": "flutter-plantist-62a38.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:255641831618:android:a84fba9204ef72bc37135b",
+        "android_client_info": {
+          "package_name": "com.example.flutter_plantist_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4-GkfzPWfwphdcfkLoePDvsYZAm70vvE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
