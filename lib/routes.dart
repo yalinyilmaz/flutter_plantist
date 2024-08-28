@@ -5,6 +5,9 @@ import 'package:flutter_plantist_app/view/pages/sign_up_page.dart';
 import 'package:flutter_plantist_app/view/pages/todo_list_page.dart';
 import 'package:go_router/go_router.dart';
 
+BuildContext get globalCtx =>
+    router.routerDelegate.navigatorKey.currentContext!;
+
 final router = GoRouter(
   debugLogDiagnostics: true,
   routes: <GoRoute>[

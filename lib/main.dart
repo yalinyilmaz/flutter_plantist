@@ -2,9 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_plantist_app/firebase_options.dart';
 import 'package:flutter_plantist_app/routes.dart';
-import 'package:flutter_plantist_app/view/helpers/theme.dart';
-import 'package:flutter_plantist_app/view/pages/home_page.dart';
-import 'package:get/route_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +18,7 @@ class PlantistApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Flutter Plantist App',
-      //theme: Themes.lightTheme,
+
       debugShowCheckedModeBanner: false,
       routerConfig: router,
     );
