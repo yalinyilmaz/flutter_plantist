@@ -42,6 +42,15 @@ dependencies:
   firebase_core: ^2.31.0
   firebase_auth: ^4.19.5
   get: ^4.6.6
+  simple_animations: ^5.0.2
+  form_field_validator: ^1.1.0
+  rxdart: ^0.28.0
+  uuid: ^4.4.2
+  cloud_firestore: ^4.17.5
+  get_it: ^7.7.0
+  mobile_scanner: ^5.2.1
+  permission_handler: ^11.3.1
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:
