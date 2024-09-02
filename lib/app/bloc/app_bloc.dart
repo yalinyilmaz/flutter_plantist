@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_plantist_app/app/dialogs/auth_error_dialog.dart';
 import 'package:flutter_plantist_app/app/navigation/routes.dart';
@@ -11,6 +13,7 @@ import 'package:flutter_plantist_app/features/authentication/model/auth_status_m
 import 'package:flutter_plantist_app/features/home/manager/photo_bloc.dart';
 import 'package:flutter_plantist_app/features/home/model/photo_model.dart';
 import 'package:flutter_plantist_app/main.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rxdart/rxdart.dart';
 
 @immutable
@@ -68,6 +71,7 @@ class AppBloc {
     _photosBloc.deletePhoto.add(
       photo,
     );
+    globalCtx.pop();
   }
 
   void createPhoto(
@@ -82,7 +86,7 @@ class AppBloc {
     );
   }
 
-  void editPhotoCaption(Photo photo) {
+  void editPhoto(Photo photo) {
     _photosBloc.editPhotoCaption.add(photo);
   }
 
@@ -125,7 +129,9 @@ class AppBloc {
     );
   }
 
-  Stream<AuthStatus> get authStatus => _authBloc.authStatus;
+  void refreshPhotos() {
+    _photosBloc.userId.add(FirebaseAuth.instance.currentUser?.uid);
+  }
 }
 
 void handleAuthErrors() async {

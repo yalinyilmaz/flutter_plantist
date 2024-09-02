@@ -30,9 +30,9 @@ class _MyWidgetState extends State<CreatePostBody> {
             const SizedBox(height: 5),
             AnimatedFadeButton(
               onTap: () {
-               if (image!=null){
-                appBloc.createPhoto(image!, captionTextController.text);
-               }
+                if (image != null) {
+                  appBloc.createPhoto(image!, captionTextController.text);
+                }
               },
               child: Text(
                 "Add Photo",
@@ -96,7 +96,7 @@ class _MyWidgetState extends State<CreatePostBody> {
             const SizedBox(height: 10),
             CustomElevatedButton(
                 buttonSize: ButtonSize.large,
-                text: "Galeriden Fotoğraf Seç",
+                text: "Pick Image From Gallery",
                 enabled: true,
                 isPrimary: true,
                 onButtonPressed: (value) async {

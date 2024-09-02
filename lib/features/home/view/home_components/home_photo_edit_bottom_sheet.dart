@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_plantist_app/app/bloc/app_bloc.dart';
 import 'package:flutter_plantist_app/app/components/custom_buttons/custom_elevated_button.dart';
+import 'package:flutter_plantist_app/app/dialogs/delete_own_photo_dialog.dart';
 import 'package:flutter_plantist_app/features/home/model/photo_model.dart';
+import 'package:go_router/go_router.dart';
 
 class PhotoEditBottomSheet extends StatelessWidget {
   const PhotoEditBottomSheet({
@@ -21,8 +23,12 @@ class PhotoEditBottomSheet extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             CustomElevatedButton(
-              text: "Hide",
-              onButtonPressed: (p0) {},
+              text:  photo.isHided ? "Remove Hide":"Hide",
+              onButtonPressed: (p0) {
+                photo.isHided = !photo.isHided;
+                appBloc.editPhoto(photo);
+                context.pop();
+              },
             ),
             CustomElevatedButton(
               text: "Pin",
@@ -34,8 +40,11 @@ class PhotoEditBottomSheet extends StatelessWidget {
             ),
             CustomElevatedButton(
               text: "Delete",
-              onButtonPressed: (p0) {
-                appBloc.deletePhoto(photo);
+              onButtonPressed: (p0) async {
+                final isApproved = await showDeleteOwnPhotoDialog(context);
+                if (isApproved) {
+                  appBloc.deletePhoto(photo);
+                }
               },
               isPrimary: false,
             ),

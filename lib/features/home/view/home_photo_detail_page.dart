@@ -9,7 +9,7 @@ import 'package:flutter_plantist_app/features/home/view/home_components/home_pho
 import 'package:flutter_plantist_app/features/home/view/home_components/home_photo_edit_bottom_sheet.dart';
 
 class PhotoDetailsPage extends StatefulWidget {
-  PhotoDetailsPage({super.key, required this.photo});
+  const PhotoDetailsPage({super.key, required this.photo});
   static const routeName = "/home/photo_detail_page";
 
   final Photo photo;
@@ -20,17 +20,19 @@ class PhotoDetailsPage extends StatefulWidget {
 
 class _PhotoDetailsPageState extends State<PhotoDetailsPage> {
   late TextEditingController captionTextController;
+  late final ValueNotifier<bool> isLiked;
 
   @override
   void initState() {
     captionTextController = TextEditingController(text: widget.photo.caption);
+    isLiked = ValueNotifier<bool>(widget.photo.isLiked);
     super.initState();
   }
 
   @override
   void dispose() {
-    appBloc.editPhotoCaption(widget.photo);
-    log("edited");
+    appBloc.editPhoto(widget.photo);
+    log("photo edited");
     super.dispose();
   }
 
@@ -62,17 +64,48 @@ class _PhotoDetailsPageState extends State<PhotoDetailsPage> {
                     icon: const Icon(Icons.more_vert))
               ],
             ),
-            PhotoCard(photo: widget.photo),
-            TextField(
-              controller: captionTextController,
-              onChanged: (value) {
-                widget.photo.caption = value;
+            GestureDetector(
+              onDoubleTap: () {
+                isLiked.value = !isLiked.value;
+                widget.photo.isLiked = isLiked.value;
               },
-              decoration: const InputDecoration(
-                hintText: 'Edit caption',
-                border: InputBorder.none,
+              child: PhotoCard(photo: widget.photo),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: TextField(
+                controller: captionTextController,
+                onChanged: (value) {
+                  widget.photo.caption = value;
+                },
+                decoration: const InputDecoration(
+                  hintText: 'Edit caption',
+                  border: InputBorder.none,
+                ),
               ),
-            )
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ValueListenableBuilder(
+                  valueListenable: isLiked,
+                  builder: (context, a, _) {
+                    return IconButton(
+                      icon: Icon(
+                        isLiked.value ? Icons.favorite : Icons.favorite_border,
+                        size: 50,
+                        color: isLiked.value ? Colors.red : Colors.black,
+                      ),
+                      onPressed: () {
+                        isLiked.value = !isLiked.value;
+                        widget.photo.isLiked = isLiked.value;
+                        log("Photo liked or like removed");
+                      },
+                    );
+                  },
+                ),
+              ],
+            ),
           ],
         ),
       ),
