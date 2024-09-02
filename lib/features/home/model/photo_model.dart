@@ -12,6 +12,7 @@ class Photo {
   String caption;
   bool isLiked;
   bool isHided;
+  bool isProfilePhoto;
 
   Photo({
     this.imageUrl,
@@ -20,6 +21,7 @@ class Photo {
     this.caption = "",
     this.isLiked = false,
     this.isHided = false,
+    this.isProfilePhoto = false,
   });
 
   Photo.withoutId({
@@ -28,6 +30,7 @@ class Photo {
     this.caption = "",
     this.isLiked = false,
     this.isHided = false,
+    this.isProfilePhoto = false,
   }) : id = const Uuid().v4();
 
   Photo.fromJson(
@@ -36,7 +39,8 @@ class Photo {
   })  : imageUrl = json[_Keys.imageKey] as String,
         caption = json[_Keys.captionKey] as String,
         isLiked = json[_Keys.isLikedKey] as bool,
-        isHided = json[_Keys.isHidedKey] as bool;
+        isHided = json[_Keys.isHidedKey] as bool,
+        isProfilePhoto = json[_Keys.isProfilePhotoKey] as bool;
 
   String get imageView => '$image';
 
@@ -45,6 +49,7 @@ class Photo {
         _Keys.captionKey: caption,
         _Keys.isLikedKey: isLiked,
         _Keys.isHidedKey: isHided,
+        _Keys.isProfilePhotoKey: isProfilePhoto,
       };
 }
 
@@ -55,4 +60,5 @@ class _Keys {
   static const captionKey = 'caption';
   static const isLikedKey = 'isLiked';
   static const isHidedKey = 'isHided';
+  static const isProfilePhotoKey = 'isProfilePhoto';
 }

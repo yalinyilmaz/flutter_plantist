@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_plantist_app/app/bloc/app_bloc.dart';
@@ -5,7 +7,8 @@ import 'package:flutter_plantist_app/app/components/custom_buttons/custom_elevat
 import 'package:flutter_plantist_app/app/components/custom_input_fields/custom_text_field.dart';
 import 'package:flutter_plantist_app/app/dialogs/delete_account_dialog.dart';
 import 'package:flutter_plantist_app/app/dialogs/logout_dialog.dart';
-import 'package:flutter_plantist_app/features/authentication/model/auth_status_model.dart';
+
+import 'package:image_picker/image_picker.dart';
 
 class ProfileBody extends StatefulWidget {
   const ProfileBody({super.key});
@@ -15,6 +18,8 @@ class ProfileBody extends StatefulWidget {
 }
 
 class _ProfileBodyState extends State<ProfileBody> {
+  final picker = ImagePicker();
+  File? image;
   ValueNotifier<bool> isEditing = ValueNotifier<bool>(false);
   ValueNotifier<String> email = ValueNotifier<String>(
       FirebaseAuth.instance.currentUser?.email ?? "User not found");
@@ -28,14 +33,35 @@ class _ProfileBodyState extends State<ProfileBody> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const CircleAvatar(
-                radius: 50,
-                child: Icon(
-                  Icons.person,
-                  size: 50,
-                ),
+              StreamBuilder<String?>(
+                stream: appBloc.profilePhotoUrl,
+                builder: (context, snap) {
+                  if (snap.hasData && snap.data != null) {
+                    final profilePhotoUrl = snap.data!;
+                    return CircleAvatar(
+                      radius: 50,
+                      backgroundImage: NetworkImage(profilePhotoUrl),
+                    );
+                  } else {
+                    return const CircleAvatar(
+                      radius: 50,
+                      child: Icon(
+                        Icons.person,
+                        size: 50,
+                      ),
+                    );
+                  }
+                },
               ),
-              const SizedBox(height: 20),
+              TextButton(
+                  onPressed: () async {
+                    await getImage(ImageSource.gallery);
+                    if (image != null) {
+                    appBloc.createPhoto(image!,"",isProfilePhoto: true);
+                    }
+                  },
+                  child: const Text("Add/Update Profile Photo")),
+              const SizedBox(height: 5),
               ValueListenableBuilder(
                 valueListenable: isEditing,
                 builder: (context, editing, _) {
@@ -50,7 +76,6 @@ class _ProfileBodyState extends State<ProfileBody> {
                           hintText: "edit e-mail",
                           isObscured: false,
                         ),
-                        const SizedBox(height: 10),
                         CustomElevatedButton(
                           onButtonPressed: (p0) async {
                             // this process requires verification before updates so that it does not work just visually works
@@ -104,5 +129,14 @@ class _ProfileBodyState extends State<ProfileBody> {
             ],
           )),
     );
+  }
+
+  Future<void> getImage(ImageSource source) async {
+    final pickedImage = await picker.pickImage(source: source);
+    if (pickedImage != null) {
+      setState(() {
+        image = File(pickedImage.path);
+      });
+    }
   }
 }

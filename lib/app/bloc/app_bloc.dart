@@ -14,6 +14,7 @@ import 'package:flutter_plantist_app/features/home/manager/photo_bloc.dart';
 import 'package:flutter_plantist_app/features/home/model/photo_model.dart';
 import 'package:flutter_plantist_app/main.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:rxdart/rxdart.dart';
 
 @immutable
@@ -77,12 +78,13 @@ class AppBloc {
   void createPhoto(
     File image,
     String? caption,
+    {bool isProfilePhoto = false}
   ) {
     _photosBloc.createPhoto.add(
       Photo.withoutId(
         image: image,
         caption: caption ?? "",
-      ),
+        isProfilePhoto: isProfilePhoto,),
     );
   }
 
@@ -102,6 +104,8 @@ class AppBloc {
   }
 
   Stream<Iterable<Photo>> get photoList => _photosBloc.photos;
+
+  Stream<String?> get profilePhotoUrl => _photosBloc.profilePhotoUrl;
 
   void register(
     String email,

@@ -23,6 +23,7 @@ class PhotosBloc {
   final Sink<Photo> editPhotoCaption;
   final Stream<Iterable<Photo>> photos;
   final Stream<bool> isLoading;
+  final Stream<String?> profilePhotoUrl;
   final StreamSubscription<void> _createPhotoSubscription;
   final StreamSubscription<void> _deletePhotoSubscription;
   final StreamSubscription<void> _deleteAllPhotosSubscription;
@@ -48,6 +49,7 @@ class PhotosBloc {
     required this.deleteAllPhotos,
     required this.editPhotoCaption,
     required this.isLoading,
+    required this.profilePhotoUrl,
     required StreamSubscription<void> createPhotoSubscription,
     required StreamSubscription<void> deletePhotoSubscription,
     required StreamSubscription<void> deleteAllPhotosSubscription,
@@ -85,6 +87,20 @@ class PhotosBloc {
       }
     });
 
+    // profile photo
+    final Stream<String?> profilePhotoUrl = userId.switchMap((userId) {
+      if (userId == null) {
+        return Stream.value(null);
+      } else {
+        return backend.collection(userId).snapshots().map((snapshots) {
+          final profilePhotos = snapshots.docs
+              .map((doc) => Photo.fromJson(doc.data(), null, id: doc.id))
+              .where((photo) => photo.isProfilePhoto);
+          return profilePhotos.isNotEmpty ? profilePhotos.first.imageUrl : null;
+        });
+      }
+    });
+
     // create photo
 
     final createPhoto = BehaviorSubject<Photo>();
@@ -94,6 +110,19 @@ class PhotosBloc {
         .switchMap((Photo photoToCreate) =>
             userId.take(1).unwrap().asyncMap((userId) async {
               try {
+                // Check if this is a profile photo
+                if (photoToCreate.isProfilePhoto) {
+                  // Find existing profile photo and update it
+                  final existingProfilePhoto = await backend
+                      .collection(userId)
+                      .where('isProfilePhoto', isEqualTo: true)
+                      .get();
+                  if (existingProfilePhoto.docs.isNotEmpty) {
+                    await existingProfilePhoto.docs.first.reference
+                        .update({'isProfilePhoto': false});
+                  }
+                }
+
                 // Upload image to Firebase Storage
                 Reference ref = storage.ref().child(
                     'images/${DateTime.now().millisecondsSinceEpoch}.jpg');
@@ -185,7 +214,8 @@ class PhotosBloc {
                         .update({
                       "caption": photoToEdit.caption,
                       "isLiked": photoToEdit.isLiked,
-                      "isHided":photoToEdit.isHided
+                      "isHided": photoToEdit.isHided,
+                      "isProfilePhoto": photoToEdit.isProfilePhoto
                     });
 
                     log("Photo updated successfully in Firestore");
@@ -206,6 +236,7 @@ class PhotosBloc {
       editPhotoCaption: editPhoto,
       photos: photoList,
       isLoading: isLoading.stream,
+      profilePhotoUrl: profilePhotoUrl,
       createPhotoSubscription: createPhotoSubscription,
       deletePhotoSubscription: deletePhotoSubscription,
       deleteAllPhotosSubscription: deleteAllContactsSubscription,
