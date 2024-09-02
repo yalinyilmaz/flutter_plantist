@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_plantist_app/app/bloc/app_bloc.dart';
 import 'package:flutter_plantist_app/app/navigation/routes.dart';
 import 'package:flutter_plantist_app/app/theme/text_theme.dart';
-import 'package:flutter_plantist_app/features/home/model/photo_model.dart';
+import 'package:flutter_plantist_app/features/home/manager/home_pages_manager.dart';
 import 'package:flutter_plantist_app/features/home/view/home_components/home_bottom_bar.dart';
-import 'package:flutter_plantist_app/features/home/view/home_components/home_create_post_body.dart';
-import 'package:flutter_plantist_app/features/home/view/home_components/home_feed_body.dart';
+
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -20,7 +18,12 @@ class HomePage extends StatelessWidget {
           centerTitle: true,
           backgroundColor: globalCtx.mainColor.shade400,
         ),
-        body: const CreatePostBody(),
+        body: ValueListenableBuilder(
+          valueListenable: selectedHomeFragments,
+          builder: (context,w,_) {
+            return selectedHomeFragMap[selectedHomeFragments.value]!;
+          }
+        ),
         bottomNavigationBar: const HomeBottomBar());
   }
 }

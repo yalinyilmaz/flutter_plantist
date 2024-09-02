@@ -1,17 +1,12 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_plantist_app/app/bloc/app_bloc.dart';
 import 'package:flutter_plantist_app/app/components/custom_buttons/custom_elevated_button.dart';
 import 'package:flutter_plantist_app/app/components/terrms_of_use.dart';
-import 'package:flutter_plantist_app/app/dialogs/auth_error_dialog.dart';
 import 'package:flutter_plantist_app/app/navigation/routes.dart';
 import 'package:flutter_plantist_app/core/button_animation/animated_fade_button.dart';
 import 'package:flutter_plantist_app/app/components/custom_input_fields/custom_text_field.dart';
 import 'package:flutter_plantist_app/app/theme/text_theme.dart';
-import 'package:flutter_plantist_app/core/loading_overlays/loading_screen.dart';
-import 'package:flutter_plantist_app/features/authentication/model/auth_error_model.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:go_router/go_router.dart';
 
@@ -30,14 +25,13 @@ class _SignInPageState extends State<SignInPage> {
   void initState() {
     super.initState();
     handleAuthErrors();
-    setupLoadingScreen();
   }
 
 
 
-  TextEditingController mailTextController = TextEditingController(text: "");
+  TextEditingController mailTextController = TextEditingController(text: "yy@gmail.com");
   TextEditingController passwordTextController =
-      TextEditingController(text: "");
+      TextEditingController(text: "123456");
   final formKey = GlobalKey<FormState>();
   bool isEnable = false;
 

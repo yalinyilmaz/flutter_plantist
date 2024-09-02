@@ -2,11 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_plantist_app/app/bloc/app_bloc.dart';
 import 'package:flutter_plantist_app/app/components/custom_buttons/custom_elevated_button.dart';
-import 'package:flutter_plantist_app/app/dialogs/auth_error_dialog.dart';
-import 'package:flutter_plantist_app/core/loading_overlays/loading_screen.dart';
-import 'package:flutter_plantist_app/features/authentication/model/auth_error_model.dart';
 import 'package:flutter_plantist_app/gen/assets.gen.dart';
 import 'package:flutter_plantist_app/app/navigation/routes.dart';
 import 'package:flutter_plantist_app/app/theme/text_theme.dart';
@@ -22,51 +18,6 @@ class EntryPage extends StatefulWidget {
 }
 
 class _EntryPageState extends State<EntryPage> {
-  // late final AppBloc appBloc;
-  // StreamSubscription<AuthError?>? _authErrorSub;
-  // StreamSubscription<bool>? _isLoadingSub;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   appBloc = AppBloc();
-  //   handleAuthErrors();
-  //   setupLoadingScreen();
-  // }
-
-  //  @override
-  // void dispose() {
-  //   appBloc.dispose();
-  //   _authErrorSub?.cancel();
-  //   _isLoadingSub?.cancel();
-  //   super.dispose();
-  // }
-
-//   void handleAuthErrors() async {
-// appBloc.authError.listen((event) {
-//       final Object? authError = event;
-//       if (authError == null) {
-//         return;
-//       }
-//       showAuthError(
-//         authError: authError as AuthError,
-//         context: globalCtx,
-//       );
-//     });
-//   }
-
-//    void setupLoadingScreen() async {
-//  appBloc.isLoading.listen((bool isLoading) {
-//       if (isLoading) {
-//         LoadingScreen.instance().show(
-//           context: globalCtx,
-//           text: 'Loading...',
-//         );
-//       } else {
-//         LoadingScreen.instance().hide();
-//       }
-//     });
-//   }
 
   @override
   Widget build(BuildContext context) {

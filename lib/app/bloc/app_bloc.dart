@@ -4,10 +4,10 @@ import 'dart:io';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_plantist_app/app/dialogs/auth_error_dialog.dart';
 import 'package:flutter_plantist_app/app/navigation/routes.dart';
-import 'package:flutter_plantist_app/core/loading_overlays/loading_screen.dart';
 import 'package:flutter_plantist_app/features/authentication/manager/auth_bloc.dart';
 import 'package:flutter_plantist_app/features/authentication/model/auth_command_model.dart';
 import 'package:flutter_plantist_app/features/authentication/model/auth_error_model.dart';
+import 'package:flutter_plantist_app/features/authentication/model/auth_status_model.dart';
 import 'package:flutter_plantist_app/features/home/manager/photo_bloc.dart';
 import 'package:flutter_plantist_app/features/home/model/photo_model.dart';
 import 'package:flutter_plantist_app/main.dart';
@@ -36,6 +36,7 @@ class AppBloc {
 
     final Stream<bool> isLoading = Rx.merge([
       authBloc.isLoading,
+      photosBloc.isLoading,
     ]);
 
     return AppBloc._(
@@ -70,15 +71,19 @@ class AppBloc {
   }
 
   void createPhoto(
-    File imageUrl,
+    File image,
     String? caption,
   ) {
     _photosBloc.createPhoto.add(
       Photo.withoutId(
-        image: imageUrl,
+        image: image,
         caption: caption ?? "",
       ),
     );
+  }
+
+  void editPhotoCaption(Photo photo) {
+    _photosBloc.editPhotoCaption.add(photo);
   }
 
   void deleteAccount() {
@@ -110,7 +115,7 @@ class AppBloc {
     String email,
     String password,
   ) {
-    log("app bloc a geliyor mu? $email $password");
+    email = email;
 
     _authBloc.login.add(
       LoginCommand(
@@ -119,6 +124,8 @@ class AppBloc {
       ),
     );
   }
+
+  Stream<AuthStatus> get authStatus => _authBloc.authStatus;
 }
 
 void handleAuthErrors() async {
@@ -131,19 +138,6 @@ void handleAuthErrors() async {
       authError: authError as AuthError,
       context: globalCtx,
     );
-  });
-}
-
-void setupLoadingScreen() async {
-  appBloc.isLoading.listen((bool isLoading) {
-    if (isLoading) {
-      LoadingScreen.instance().show(
-        context: globalCtx,
-        text: 'Loading...',
-      );
-    } else {
-      LoadingScreen.instance().hide();
-    }
   });
 }
 

@@ -12,5 +12,6 @@ class AuthStatusLoggedOut implements AuthStatus {
 
 @immutable
 class AuthStatusLoggedIn implements AuthStatus {
-  const AuthStatusLoggedIn();
+  final String userEmail;
+  const AuthStatusLoggedIn({required this.userEmail,});
 }

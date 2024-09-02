@@ -4,32 +4,36 @@ import 'package:flutter/foundation.dart' show immutable;
 import 'package:uuid/uuid.dart';
 
 @immutable
+// ignore: must_be_immutable
 class Photo {
   final String id;
-  final File image;
-  final String caption;
+  final File? image;
+  final String? imageUrl;
+  String caption;
 
-  const Photo({
+  Photo({
+    this.imageUrl,
     required this.id,
-    required this.image,
+    this.image,
     this.caption = "",
   });
 
   Photo.withoutId({
-    required this.image,
+    this.imageUrl,
+    this.image,
     this.caption = "",
   }) : id = const Uuid().v4();
 
   Photo.fromJson(
-    Map<String, dynamic> json, {
+    Map<String, dynamic> json, this.image, {
     required this.id,
-  })  : image = json[_Keys.imageKey] as File,
+  })  : imageUrl = json[_Keys.imageKey] as String,
         caption = json[_Keys.captionKey] as String;
 
   String get imageView => '$image';
 
   Map<String, dynamic> get data => {
-        _Keys.imageKey: image,
+        _Keys.imageKey: imageUrl,
         _Keys.captionKey: caption,
       };
 }

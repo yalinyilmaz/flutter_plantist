@@ -8,6 +8,8 @@ import 'package:flutter_plantist_app/core/extensions/stream_loading_extension.da
 import 'package:flutter_plantist_app/features/authentication/model/auth_command_model.dart';
 import 'package:flutter_plantist_app/features/authentication/model/auth_error_model.dart';
 import 'package:flutter_plantist_app/features/authentication/model/auth_status_model.dart';
+import 'package:flutter_plantist_app/features/authentication/view/entry_page.dart';
+import 'package:flutter_plantist_app/features/authentication/view/sign_in_page.dart';
 import 'package:flutter_plantist_app/features/home/view/home_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rxdart/rxdart.dart';
@@ -50,7 +52,7 @@ class AuthBloc {
     final Stream<AuthStatus> authStatus =
         FirebaseAuth.instance.authStateChanges().map((user) {
       if (user != null) {
-        return const AuthStatusLoggedIn();
+        return AuthStatusLoggedIn(userEmail: user.email!);
       } else {
         return const AuthStatusLoggedOut();
       }
@@ -112,6 +114,7 @@ class AuthBloc {
         .asyncMap<AuthError?>((_) async {
       try {
         await FirebaseAuth.instance.signOut();
+        globalCtx.go(SignInPage.routeName);
         return null;
       } on FirebaseAuthException catch (e) {
         return AuthError.from(e);
@@ -128,6 +131,7 @@ class AuthBloc {
         deleteAccount.setLoadingTo(true, onSink: isLoading).asyncMap((_) async {
       try {
         await FirebaseAuth.instance.currentUser?.delete();
+        globalCtx.go(SignInPage.routeName);
         return null;
       } on FirebaseAuthException catch (e) {
         return AuthError.from(e);
@@ -161,30 +165,3 @@ class AuthBloc {
     );
   }
 }
-
-
-// class AuthBloc {
-
-
-//   // FirebaseAuth auth = FirebaseAuth.instance;
-//   // void createAccount(String email, String password) async {
-//   //   try {
-//   //     var userCredentials = await auth.createUserWithEmailAndPassword(
-//   //         email: email, password: password);
-//   //     print(userCredentials.toString());
-//   //   } catch (e) {
-//   //     print(e.toString());
-//   //   }
-//   // }
-
-//   // void login(String email, String password, BuildContext ctx) async {
-//   //   try {
-//   //     var userCredentials = await auth.signInWithEmailAndPassword(
-//   //         email: email, password: password);
-//   //     log(userCredentials.toString());
-//   //     ctx.push(TodoListPage.routeName);
-//   //   } catch (e) {
-//   //     print(e.toString());
-//   //   }
-//   // }
-// }
